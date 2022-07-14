@@ -1,0 +1,1 @@
+I am going to build a game using mostly javascript and DOM manipulation
