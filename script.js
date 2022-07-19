@@ -2,13 +2,13 @@ window.onload = function () {
     const gridContainer = document.createElement('div');
     for (let i = 1; i <= 256; i++) {
         const block = document.createElement('div');
-        block.style.backgroundColor = "pink";
-        // block.style.margin = "0px";
-        // block.style.padding = "0px";
-        block.style.width = "auto";
-        block.style.height = "auto";
+        block.style.backgroundColor = "teal";
         gridContainer.appendChild(block);
-    }; 
+        block.addEventListener("mouseenter", changeColor);
+        function changeColor() {
+            block.style.backgroundColor = "black";
+        };
+    };
     document.body.appendChild(gridContainer);
     gridContainer.style.width = "800px";
     gridContainer.style.height = "800px";
