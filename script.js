@@ -33,17 +33,41 @@ window.onload = function () {
     gameName.style.color = "rgb(255, 215, 0)";
     gameName.style.fontSize = "xx-large";
 
-    //  create input button
-    const inputBtn = document.createElement('button');
-    headerContainer.appendChild(inputBtn);
-    inputBtn.style.backgroundColor = "rgb(255, 215, 0)";
-    inputBtn.style.width = "max-content";
-    inputBtn.style.fontFamily = "monospace";
-    inputBtn.style.fontSize = "larger";
-    inputBtn.style.display = "block";
-    inputBtn.textContent = "Make your own grid";
+    //  create input button for black
+    const inputBtnBlack = document.createElement('button');
+    headerContainer.appendChild(inputBtnBlack);
+    inputBtnBlack.style.backgroundColor = "rgb(255, 215, 0)";
+    inputBtnBlack.style.width = "max-content";
+    inputBtnBlack.style.fontFamily = "monospace";
+    inputBtnBlack.style.fontSize = "larger";
+    inputBtnBlack.style.display = "block";
+    inputBtnBlack.textContent = "Make your own grid";
 
-    inputBtn.addEventListener("click", create);
+    inputBtnBlack.addEventListener("click", createBlack);
+
+    //  create input button for rainbow
+    const inputBtnRainbow = document.createElement('button');
+    headerContainer.appendChild(inputBtnRainbow);
+    inputBtnRainbow.style.backgroundColor = "rgb(255, 215, 0)";
+    inputBtnRainbow.style.width = "max-content";
+    inputBtnRainbow.style.fontFamily = "monospace";
+    inputBtnRainbow.style.fontSize = "larger";
+    inputBtnRainbow.style.display = "block";
+    inputBtnRainbow.textContent = "Make your own rainbow grid";
+
+    inputBtnRainbow.addEventListener("click", createRainbow);
+
+    //  create input button for rainbow to black
+    const inputBtnRainbowBlk = document.createElement('button');
+    headerContainer.appendChild(inputBtnRainbowBlk);
+    inputBtnRainbowBlk.style.backgroundColor = "rgb(255, 215, 0)";
+    inputBtnRainbowBlk.style.width = "max-content";
+    inputBtnRainbowBlk.style.fontFamily = "monospace";
+    inputBtnRainbowBlk.style.fontSize = "larger";
+    inputBtnRainbowBlk.style.display = "block";
+    inputBtnRainbowBlk.textContent = "Make your own fade-to-black grid";
+
+    inputBtnRainbowBlk.addEventListener("click", createRainbowToBlack);
 
     // create the game field
     let gridContainer = document.createElement('div');
@@ -70,7 +94,7 @@ window.onload = function () {
     };
 
     // making user specified grid
-    function create() {
+    function createBlack() {
         gridContainer.remove();
         gridSide = prompt("Type a number from 10 to 100");
         if (gridSide < 10 || gridSide > 100) {
@@ -102,6 +126,98 @@ window.onload = function () {
             block.addEventListener("mouseenter", changeColor);
             function changeColor() {
                 block.style.backgroundColor = "black";
+            };
+        };
+        document.getElementById("headerContainer").style.order = "1";
+        document.getElementById("gridContainer").style.order = "2";
+        document.getElementById("footerContainer").style.order = "3";
+    };
+
+    function createRainbow() {
+        gridContainer.remove();
+        gridSide = prompt("Type a number from 10 to 100");
+        if (gridSide < 10 || gridSide > 100) {
+            alert("From 10 to 100");
+            gridSide = prompt("Type a number from 10 to 100");
+        } else if (gridSide != null) {
+            // prompt value is a string so need to convert into number
+            gridSide = parseInt(gridSide, 10);
+        };
+
+        gridContainer = document.createElement('div');
+        mainDiv.appendChild(gridContainer);
+        gridContainer.setAttribute('id', 'gridContainer');
+        gridContainer.style.width = "500px";
+        gridContainer.style.height = "500px";
+        gridContainer.style.border = "solid";
+        gridContainer.style.display = "grid";
+
+        // to pass variable as value into repeat function use template literal
+        gridContainer.style.gridTemplate = `repeat(${gridSide}, 1fr) / repeat(${gridSide}, 1fr)`;
+
+        for (let i = 1; i <= (gridSide * gridSide); i++) {
+            const block = document.createElement('div');
+            block.style.backgroundColor = "white";
+            gridContainer.appendChild(block);
+            block.setAttribute('id', 'block');
+
+            // adds hover effect to draw with the mouse 
+            block.addEventListener("mouseenter", changeColor);
+            function changeColor() {
+                var colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
+                var random_color = colors[Math.floor(Math.random() * colors.length)];
+                block.style.backgroundColor = random_color;
+            };
+        };
+        document.getElementById("headerContainer").style.order = "1";
+        document.getElementById("gridContainer").style.order = "2";
+        document.getElementById("footerContainer").style.order = "3";
+    };
+
+    function createRainbowToBlack() {
+        gridContainer.remove();
+        gridSide = prompt("Type a number from 10 to 100");
+        if (gridSide < 10 || gridSide > 100) {
+            alert("From 10 to 100");
+            gridSide = prompt("Type a number from 10 to 100");
+        } else if (gridSide != null) {
+            // prompt value is a string so need to convert into number
+            gridSide = parseInt(gridSide, 10);
+        };
+
+        gridContainer = document.createElement('div');
+        mainDiv.appendChild(gridContainer);
+        gridContainer.setAttribute('id', 'gridContainer');
+        gridContainer.style.width = "500px";
+        gridContainer.style.height = "500px";
+        gridContainer.style.border = "solid";
+        gridContainer.style.display = "grid";
+
+        // to pass variable as value into repeat function use template literal
+        gridContainer.style.gridTemplate = `repeat(${gridSide}, 1fr) / repeat(${gridSide}, 1fr)`;
+
+        for (let i = 1; i <= (gridSide * gridSide); i++) {
+            const block = document.createElement('div');
+            block.style.backgroundColor = "white";
+            gridContainer.appendChild(block);
+            block.setAttribute('id', 'block');
+
+            // adds hover effect to draw with the mouse 
+
+            block.addEventListener("mouseenter", changeColor);
+            function changeColor() {
+                var colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
+                var random_color = colors[Math.floor(Math.random() * colors.length)];
+                block.style.backgroundColor = random_color;
+            };
+
+            block.addEventListener("mouseenter", reduceBright);
+            let fullBright = 100; 
+            let reducedBright = fullBright;
+            function reduceBright() {
+                reducedBright = reducedBright - 10;
+                block.style.filter = `brightness(${reducedBright}%)`;
+                console.log(reducedBright);
             };
         };
         document.getElementById("headerContainer").style.order = "1";
