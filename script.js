@@ -13,7 +13,7 @@ window.onload = function () {
     mainDiv.style.alignItems = "center";
     mainDiv.style.justifyContent = "space-evenly";
 
-    // input button space
+    // buttons space
     const headerContainer = document.createElement('div');
     mainDiv.appendChild(headerContainer);
     headerContainer.setAttribute('id', 'headerContainer');
@@ -33,7 +33,7 @@ window.onload = function () {
     gameName.style.color = "rgb(255, 215, 0)";
     gameName.style.fontSize = "xx-large";
 
-    //  create input button for black
+    //  create button for black
     const inputBtnBlack = document.createElement('button');
     headerContainer.appendChild(inputBtnBlack);
     inputBtnBlack.style.backgroundColor = "rgb(255, 215, 0)";
@@ -45,7 +45,7 @@ window.onload = function () {
 
     inputBtnBlack.addEventListener("click", createBlack);
 
-    //  create input button for rainbow
+    //  create button for rainbow
     const inputBtnRainbow = document.createElement('button');
     headerContainer.appendChild(inputBtnRainbow);
     inputBtnRainbow.style.backgroundColor = "rgb(255, 215, 0)";
@@ -57,7 +57,7 @@ window.onload = function () {
 
     inputBtnRainbow.addEventListener("click", createRainbow);
 
-    //  create input button for rainbow to black
+    //  create button for rainbow to black
     const inputBtnRainbowBlk = document.createElement('button');
     headerContainer.appendChild(inputBtnRainbowBlk);
     inputBtnRainbowBlk.style.backgroundColor = "rgb(255, 215, 0)";
@@ -69,53 +69,21 @@ window.onload = function () {
 
     inputBtnRainbowBlk.addEventListener("click", createRainbowToBlack);
 
-    // create the game field
-    let gridContainer = document.createElement('div');
-    mainDiv.appendChild(gridContainer);
-    gridContainer.setAttribute('id', 'gridContainer');
-    gridContainer.style.width = "500px";
-    gridContainer.style.height = "500px";
-    gridContainer.style.border = "solid";
-    gridContainer.style.display = "grid";
-    gridContainer.style.gridTemplate = `repeat(${gridSide}, 1fr) / repeat(${gridSide}, 1fr)`;
-
-    // make squares 
-    for (let i = 1; i <= (gridSide * gridSide); i++) {
-        const block = document.createElement('div');
-        block.style.backgroundColor = "white";
-        gridContainer.appendChild(block);
-        block.setAttribute('id', 'block');
-
-        // adds hover effect to draw with the mouse 
-        block.addEventListener("mouseenter", changeColor);
-        function changeColor() {
-            block.style.backgroundColor = "black";
-        };
-    };
-
-    // making user specified grid
-    function createBlack() {
-        gridContainer.remove();
-        gridSide = prompt("Type a number from 10 to 100");
-        if (gridSide < 10 || gridSide > 100) {
-            alert("From 10 to 100");
-            gridSide = prompt("Type a number from 10 to 100");
-        } else if (gridSide != null) {
-            // prompt value is a string so need to convert into number
-            gridSide = parseInt(gridSide, 10);
-        };
-
-        gridContainer = document.createElement('div');
+    // create the game field using named IIFE
+    (buildContainer = function () {
+        let gridContainer = document.createElement('div');
         mainDiv.appendChild(gridContainer);
         gridContainer.setAttribute('id', 'gridContainer');
         gridContainer.style.width = "500px";
         gridContainer.style.height = "500px";
         gridContainer.style.border = "solid";
         gridContainer.style.display = "grid";
-
         // to pass variable as value into repeat function use template literal
         gridContainer.style.gridTemplate = `repeat(${gridSide}, 1fr) / repeat(${gridSide}, 1fr)`;
+    })();
 
+    // make squares 
+    (black = function () {
         for (let i = 1; i <= (gridSide * gridSide); i++) {
             const block = document.createElement('div');
             block.style.backgroundColor = "white";
@@ -128,13 +96,10 @@ window.onload = function () {
                 block.style.backgroundColor = "black";
             };
         };
-        document.getElementById("headerContainer").style.order = "1";
-        document.getElementById("gridContainer").style.order = "2";
-        document.getElementById("footerContainer").style.order = "3";
-    };
+    })();
 
-    function createRainbow() {
-        gridContainer.remove();
+    // making user specified grid
+    function userGrid() {
         gridSide = prompt("Type a number from 10 to 100");
         if (gridSide < 10 || gridSide > 100) {
             alert("From 10 to 100");
@@ -143,17 +108,23 @@ window.onload = function () {
             // prompt value is a string so need to convert into number
             gridSide = parseInt(gridSide, 10);
         };
+    };
 
-        gridContainer = document.createElement('div');
-        mainDiv.appendChild(gridContainer);
-        gridContainer.setAttribute('id', 'gridContainer');
-        gridContainer.style.width = "500px";
-        gridContainer.style.height = "500px";
-        gridContainer.style.border = "solid";
-        gridContainer.style.display = "grid";
+    function createBlack() {
+        gridContainer.remove();
+        userGrid();
+        buildContainer();
+        black();
 
-        // to pass variable as value into repeat function use template literal
-        gridContainer.style.gridTemplate = `repeat(${gridSide}, 1fr) / repeat(${gridSide}, 1fr)`;
+        document.getElementById("headerContainer").style.order = "1";
+        document.getElementById("gridContainer").style.order = "2";
+        document.getElementById("footerContainer").style.order = "3";
+    };
+
+    function createRainbow() {
+        gridContainer.remove();
+        userGrid();
+        buildContainer();
 
         for (let i = 1; i <= (gridSide * gridSide); i++) {
             const block = document.createElement('div');
@@ -176,25 +147,8 @@ window.onload = function () {
 
     function createRainbowToBlack() {
         gridContainer.remove();
-        gridSide = prompt("Type a number from 10 to 100");
-        if (gridSide < 10 || gridSide > 100) {
-            alert("From 10 to 100");
-            gridSide = prompt("Type a number from 10 to 100");
-        } else if (gridSide != null) {
-            // prompt value is a string so need to convert into number
-            gridSide = parseInt(gridSide, 10);
-        };
-
-        gridContainer = document.createElement('div');
-        mainDiv.appendChild(gridContainer);
-        gridContainer.setAttribute('id', 'gridContainer');
-        gridContainer.style.width = "500px";
-        gridContainer.style.height = "500px";
-        gridContainer.style.border = "solid";
-        gridContainer.style.display = "grid";
-
-        // to pass variable as value into repeat function use template literal
-        gridContainer.style.gridTemplate = `repeat(${gridSide}, 1fr) / repeat(${gridSide}, 1fr)`;
+        userGrid();
+        buildContainer();
 
         for (let i = 1; i <= (gridSide * gridSide); i++) {
             const block = document.createElement('div');
@@ -203,7 +157,6 @@ window.onload = function () {
             block.setAttribute('id', 'block');
 
             // adds hover effect to draw with the mouse 
-
             block.addEventListener("mouseenter", changeColor);
             function changeColor() {
                 var colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
@@ -212,7 +165,7 @@ window.onload = function () {
             };
 
             block.addEventListener("mouseenter", reduceBright);
-            let fullBright = 100; 
+            let fullBright = 100;
             let reducedBright = fullBright;
             function reduceBright() {
                 reducedBright = reducedBright - 10;
